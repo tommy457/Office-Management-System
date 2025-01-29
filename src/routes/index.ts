@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import apiResponse from "../utils/apiResponse";
 import { NotFoundError } from "../middlewares/errors.middleware";
 import config from "../config";
-import v1Routes from "../modules/v1/v1Routes";
+import v1Routes from "../modules/v1/routes";
 
 class Routes {
   public router: Router;

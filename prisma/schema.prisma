@@ -7,11 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  ADMIN
+  DOCTOR
+  PATIENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
 model User {
   id                    String           @id @unique @default(uuid())
   password              String
   email                 String           @unique
   name                  String
+  role                  UserType         @default(PATIENT)
   specialization        String?
   date_of_birth         String?
   address               String?
@@ -38,6 +52,7 @@ model Appointment {
 
   reason        String
   date_and_time DateTime
+  status        AppointmentStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

@@ -1,6 +1,6 @@
 export interface jwtTokenIdentity {
     id: string,
-    username: string,
+    name: string,
     role: string,
     iat: number,
     exp: number,

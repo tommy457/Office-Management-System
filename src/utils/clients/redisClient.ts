@@ -14,7 +14,7 @@ class RedisClient {
     });
 
     this.client.on('error', (err) => {
-      console.error('Redis client error:', (err as Error).message);
+      console.error('Redis client error:', err);
       this.isConnected = false;
     });
 
@@ -38,7 +38,6 @@ class RedisClient {
   isAlive(): boolean {
     return this.isConnected;
   }
-
 
   async get(key: string): Promise<string | null> {
     try {
@@ -78,6 +77,8 @@ class RedisClient {
 
 const redisClient = new RedisClient();
 
-await redisClient.connect();
+(async () => {
+  await redisClient.connect();
+})();
 
 export default redisClient;
