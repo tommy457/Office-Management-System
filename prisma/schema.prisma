@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String           @id @unique @default(uuid())
+  password              String
+  email                 String           @unique
+  name                  String
+  specialization        String?
+  date_of_birth         String?
+  address               String?
+  doctorAppointment     Appointment[]    @relation(name: "doctor")
+  patientAppointment    Appointment[]    @relation(name: "patient")
+  doctorPrescription    Prescription[]   @relation(name: "doctor")
+  patientPrescription   Prescription[]   @relation(name: "patient")
+  doctorMedicalHistory  MedicalHistory[] @relation(name: "doctor")
+  patientMedicalHistory MedicalHistory[] @relation(name: "patient")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([updatedAt])
+}
+
+model Appointment {
+  id         String @id @unique @default(uuid())
+  doctor_id  String @unique
+  patient_id String @unique
+  doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
+  patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
+
+  reason        String
+  date_and_time DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([updatedAt])
+}
+
+model Prescription {
+  id         String @id @unique @default(uuid())
+  doctor_id  String @unique
+  patient_id String @unique
+  doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
+  patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
+
+  medication String
+  dosage     String
+  frequency  String
+  startDate  DateTime @default(now())
+  endDate    DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([updatedAt])
+}
+
+model MedicalHistory {
+  id         String @id @unique @default(uuid())
+  doctor_id  String @unique
+  patient_id String @unique
+  doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
+  patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
+
+  diagnosis String
+  treatment String
+  notes     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([updatedAt])
+}
