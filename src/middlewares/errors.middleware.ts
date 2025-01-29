@@ -53,7 +53,7 @@ class InternalServerError extends Error implements CustomError {
     this.name = 'InternalServerError';
   }
 }
-const errorHandler = (error: CustomError, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (error: CustomError, req: Request, res: Response, next: NextFunction) : any => {
   if (error instanceof JsonWebTokenError) {
     return apiResponse.errorResponse(res, 403, 'Invalid token.');
   }
@@ -62,7 +62,6 @@ const errorHandler = (error: CustomError, req: Request, res: Response, next: Nex
   } else {
     console.log(error);
     return apiResponse.errorResponse(res, 500, 'An unknown error occurred.');
-
   }
 };
 
