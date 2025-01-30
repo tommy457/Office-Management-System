@@ -43,12 +43,13 @@ class AuthController {
     try {
       const { email, password } = req.body;
 
-      await AuthService.login(email, password);
+      const data = await AuthService.login(email, password);
 
       return apiResponse.successResponse(
         res,
         200,
-        "User Login Successfully."
+        "User Login Successfully.",
+        data
       );
     } catch (error) {
       console.error("Error login User:", error);
@@ -65,7 +66,7 @@ class AuthController {
 
     try {
       if (!refreshToken) {
-        throw new UnauthorizedError("Missing Refresh token");
+        throw new UnauthorizedError("Missing Refresh Token");
       }
       const newAccessToken = await AuthService.refresh(refreshToken);
       return apiResponse.successResponse(
@@ -93,7 +94,7 @@ class AuthController {
 
       return apiResponse.successResponse(
         res,
-        204,
+        200,
         "User Logged Out Successfully."
       );
     } catch (error) {

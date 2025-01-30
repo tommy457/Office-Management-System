@@ -1,6 +1,7 @@
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import apiResponse from '../utils/apiResponse';
+import Joi from "joi";
 
 interface CustomError extends Error {
   status?: number;
@@ -56,6 +57,18 @@ class InternalServerError extends Error implements CustomError {
 const errorHandler = (error: CustomError, req: Request, res: Response, next: NextFunction) : any => {
   if (error instanceof JsonWebTokenError) {
     return apiResponse.errorResponse(res, 403, 'Invalid token.');
+  }
+  if (error instanceof Joi.ValidationError) {
+    let errorDetail = error.details.reduce((key: any, value) => {
+      key[value.path.join('.')] = `${value.message}.`;
+      return key;
+    }, {});
+    return apiResponse.errorResponse(
+      res,
+      400,
+      "Validation Error",
+      errorDetail
+    );
   }
   if (error.status) {
     return apiResponse.errorResponse(res, error.status, error.message);
