@@ -1,7 +1,7 @@
 {
-  "name": "y",
+  "name": "Office-Management-System",
   "version": "1.0.0",
-  "description": "",
+  "description": "API for a Doctor's Office Management System.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require ts-node/register 'tests/*.ts'",
@@ -29,6 +29,11 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/morgan": "^1.9.9"
+    "@types/morgan": "^1.9.9",
+    "@types/mocha": "^10.0.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.7.0",
+    "ts-node": "^10.9.2"
   }
 }

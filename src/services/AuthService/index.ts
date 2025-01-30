@@ -12,6 +12,7 @@ import {
 } from "../../middlewares/errors.middleware";
 import redisClient from "../../utils/clients/redisClient";
 import { jwtTokenIdentity } from "../../interfaces/jwt.interface";
+import { UserType } from "../../utils/enums/user-role.enum";
 
 
 class AuthService extends BaseService<
@@ -78,7 +79,6 @@ class AuthService extends BaseService<
       date_of_birth,
       address,
     });
-
   }
 
   async login(email: string, password: string): Promise<object> {
@@ -137,13 +137,13 @@ class AuthService extends BaseService<
     const newAccessToken = await this.generateJWToken(
       { id: user.id, username: user.name, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
-      `${process.env.ACCESS_TTL}m`
+      `${process.env.ACCESS_TOKEN_TTL}m`
     );
 
     await redisClient.set(
       user.id,
       `${newAccessToken.split(".")[1]}`,
-      parseInt(process.env.ACCESS_TTL, 10) * 60
+      parseInt(process.env.ACCESS_TOKEN_TTL, 10) * 60
     );
     return newAccessToken;
   }
