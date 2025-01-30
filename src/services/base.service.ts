@@ -1,4 +1,7 @@
-
+import {
+  ReqQueryOptions,
+  PaginatedResponse
+} from "../../src/interfaces/misc.interface";
 
 export class BaseService<T, CreateInput, UpdateInput, Include, Select = undefined> {
   private model: any;
@@ -76,5 +79,41 @@ export class BaseService<T, CreateInput, UpdateInput, Include, Select = undefine
     return await this.model.delete({
       where: { id },
     });
+  }
+
+  async findAllPaginated(
+    query: ReqQueryOptions,
+    filters?: object,
+    options?: { include?: Include, select?: Select },
+    ): Promise<PaginatedResponse<T>> {
+    const {
+      cursor,
+      limit,
+      search,
+      orderBy,
+      sortOrder,
+    } = query;
+
+    const queryOptions = {
+      limit,
+      cursor,
+      search,
+      orderBy,
+      sortOrder,
+    };
+
+    const records = await this.model.findMany({
+      where: filters,
+      take: queryOptions.limit,
+      cursor: queryOptions.cursor ? { id: queryOptions.cursor } : undefined,
+      skip: queryOptions.cursor ? 1 : 0,
+      orderBy: { [queryOptions.orderBy]: queryOptions.sortOrder },
+      ...options,
+    });
+    const nextCursor =
+      records.length > 0 ? records[records.length - 1].id : null;
+    const data = { records, nextCursor };
+
+    return data;
   }
 }
