@@ -3,6 +3,7 @@ import apiResponse from "../utils/apiResponse";
 import { NotFoundError } from "../middlewares/errors.middleware";
 import config from "../config";
 import v1Routes from "../modules/v1/routes";
+import customMiddleware from "../middlewares/custom.middleware";
 
 class Routes {
   public router: Router;
@@ -26,7 +27,7 @@ class Routes {
         data
       );
     });
-
+    this.router.use(customMiddleware.formatRequestQuery);
     this.router.use(`${config.V1_URL}`, v1Routes);
 
     this.router.use("*", () => {

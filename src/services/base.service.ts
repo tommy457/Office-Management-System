@@ -95,8 +95,8 @@ export class BaseService<T, CreateInput, UpdateInput, Include, Select = undefine
     } = query;
 
     const queryOptions = {
-      limit,
       cursor,
+      limit,
       search,
       orderBy,
       sortOrder,
