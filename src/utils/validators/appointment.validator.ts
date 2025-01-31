@@ -54,10 +54,9 @@ class AppointmentValidator {
           "string.empty": "Date And Time is required",
         }),
       patientId: Joi.string()
-        .required()
         .label("Date And Time")
         .messages({
-          "string.empty": "Date And Time is required",
+          "string.empty": "Patient Id is required",
         }),
       doctorId: Joi.string()
         .label("Date And Time")

@@ -80,7 +80,11 @@ class AppointmentController {
   ): Promise<Response> {
     const { id } = req.params;
     try {
-      const appointment = await AppointmentService.findAppointmentById(id);
+      const appointment = await AppointmentService.findAppointmentById(
+        id,
+        req.user.role,
+        req.user.id
+      );
       return apiResponse.successResponse(
         res,
         200,

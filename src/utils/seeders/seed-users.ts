@@ -35,8 +35,36 @@ class SeedUsers {
       create: {
         id: '33333333-3333-3333-3333-333333333333',
         password: await bcrypt.hash('testing123', 10),
-        email: 'mohamed.lamine@patient.com',
+        email: 'mohamed.lamine3@patient.com',
         name: 'Boukhalfa Mohamed Lamine 3',
+        role: UserType.PATIENT,
+        date_of_birth: '1996/11/06',
+        address: 'Ain Touta Batna',
+      },
+    });
+
+    await dbClient.client().user.upsert({
+      where: { id: '44444444-4444-4444-4444-444444444444' },
+      update: {},
+      create: {
+        id: '44444444-4444-4444-4444-444444444444',
+        password: await bcrypt.hash('testing123', 10),
+        email: 'mohamed.lamine4@patient.com',
+        name: 'Boukhalfa Mohamed Lamine 4',
+        role: UserType.PATIENT,
+        date_of_birth: '1996/11/06',
+        address: 'Ain Touta Batna',
+      },
+    });
+
+    await dbClient.client().user.upsert({
+      where: { id: '55555555-5555-5555-5555-555555555555' },
+      update: {},
+      create: {
+        id: '55555555-5555-5555-5555-555555555555',
+        password: await bcrypt.hash('testing123', 10),
+        email: 'mohamed.lamine5@patient.com',
+        name: 'Boukhalfa Mohamed Lamine 5',
         role: UserType.PATIENT,
         date_of_birth: '1996/11/06',
         address: 'Ain Touta Batna',
