@@ -45,8 +45,8 @@ model User {
 
 model Appointment {
   id         String @id @unique @default(uuid())
-  doctor_id  String @unique
-  patient_id String @unique
+  doctor_id  String
+  patient_id String
   doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
   patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
 
@@ -63,8 +63,8 @@ model Appointment {
 
 model Prescription {
   id         String @id @unique @default(uuid())
-  doctor_id  String @unique
-  patient_id String @unique
+  doctor_id  String
+  patient_id String
   doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
   patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
 
@@ -83,8 +83,8 @@ model Prescription {
 
 model MedicalHistory {
   id         String @id @unique @default(uuid())
-  doctor_id  String @unique
-  patient_id String @unique
+  doctor_id  String
+  patient_id String
   doctor     User   @relation("doctor", fields: [doctor_id], references: [id], onDelete: Cascade)
   patient    User   @relation("patient", fields: [patient_id], references: [id], onDelete: Cascade)
 
