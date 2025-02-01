@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: tommy
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: omstestdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: "postgresql://tommy:password@postgres_db:5432/omstestdb"
+      POSTGRES_USER: tommy
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: omstestdb
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6378:6379"
+
+
+volumes:
+  postgres_data:

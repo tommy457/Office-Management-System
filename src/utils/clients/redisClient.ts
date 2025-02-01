@@ -6,8 +6,9 @@ class RedisClient {
   private isConnected: boolean = false;
 
   constructor() {
-    this.client = createClient();
-
+    this.client = createClient({
+      url: 'redis://redis:6379'
+    });
     this.client.on('connect', () => {
       console.log('Connected to Redis');
       this.isConnected = true;
